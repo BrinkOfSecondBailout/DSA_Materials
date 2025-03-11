@@ -233,3 +233,75 @@ var reverseWords = function(s) {
 // const s = "a good   example";
 // console.log(reverseWords(s));
 // https://leetcode.com/problems/reverse-words-in-a-string/description/
+
+
+
+var isMatch = function(s, p) {
+    return match(s, p, 0, 0);
+};
+
+function match(s, p, i, j) {
+    // Base case
+    if (i >= s.length && j >= p.length) return true; // if reached end of strings for both
+    if (j >= p.length) return false; // if there's still s string but no more p string
+
+    // If we reached end of s, p can still match if remaining pattern is all *
+    if (i >= s.length) {
+        if (j + 1 < p.length && p[j + 1] === '*') {
+            return match(s, p, i, j + 2);
+        }
+        return false;
+    }
+
+    // Check if current characters match
+    const currMatch = s[i] === p[j] || p[j] === '.';
+    
+    // look ahead if next character is *
+    if (j + 1 < p.length && p[j + 1] === '*') {
+        const skipStar = match(s, p, i, j + 2); // Try skipping characters
+        const useStar = currMatch && match(s, p, i + 1, j); // Try duplicating the character
+        return skipStar || useStar; // Just need one to be true and it passes
+    }
+
+    if (currMatch) {
+        return match(s, p, i + 1, j + 1);
+    }
+    return false;
+}
+
+// let s = "aa", p = "a";
+// console.log(isMatch(s, p));
+// https://leetcode.com/problems/regular-expression-matching/submissions/1570749601/
+
+
+
+var threeSum = function(nums) {
+    nums.sort((a, b) => a - b);
+    let result = [];
+    for (let i = 0; i < nums.length - 2; i++) {
+        if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+        let left = i + 1;
+        let right = nums.length - 1;
+
+        while (left < right) {
+            let sum = nums[i] + nums[left] + nums[right];
+            if (sum === 0) {
+                result.push([nums[i], nums[left], nums[right]]);
+                while (left < right && nums[left] === nums[left + 1]) left++;
+                while (left < right && nums[right] === nums[right - 1]) right--;
+                left++;
+                right--;
+            } else if (sum < 0) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+    return result;
+};
+
+// const nums = [0,0,0,0];
+// console.log(threeSum(nums));
+// https://leetcode.com/problems/3sum/description/

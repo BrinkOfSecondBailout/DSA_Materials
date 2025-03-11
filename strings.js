@@ -187,3 +187,49 @@ var intToRoman = function(num) {
 // const num = 1994;
 // console.log(intToRoman(num));
 // https://leetcode.com/problems/integer-to-roman/description/
+
+
+
+var simplifyPath = function(path) {
+    let strings = path.split("/");
+    let stack = [];
+    console.log(strings);
+    for (const part of strings) {
+        if (part === '..') {
+            if (stack.length > 0) stack.pop();
+        } else if (part === '' || part === '.') {
+            continue;
+        } else {
+            stack.push(part);
+        }
+    }
+    console.log(stack);
+    let result = '/' + stack.join('/');
+    return result;f
+};
+
+// const path = "/home//foo/";
+// console.log(simplifyPath(path));
+// https://leetcode.com/problems/simplify-path/description/
+
+
+
+
+var reverseWords = function(s) {
+    let words = s.trim().split(" ");
+    let result = "";
+    console.log(words);
+    for (let i = words.length - 1; i >= 0; i--) {
+        if (words[i] === '') {
+            continue;
+        } else {
+            result += words[i];
+        }
+        if (i > 0) result += ' ';
+    }
+    return result;
+};
+
+// const s = "a good   example";
+// console.log(reverseWords(s));
+// https://leetcode.com/problems/reverse-words-in-a-string/description/

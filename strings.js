@@ -23,7 +23,7 @@ var romanToInt = function(s) {
 };
 // let s = "III";
 // console.log(romanToInt(s));
-
+// https://leetcode.com/problems/roman-to-integer/description/
 
 
 var longestCommonPrefix = function(strs) {
@@ -39,7 +39,7 @@ var longestCommonPrefix = function(strs) {
 
 // let strs = ["flower","flow","flight"];
 // console.log(longestCommonPrefix(strs));
-
+// https://leetcode.com/problems/longest-common-prefix/description/
 
 
 var isValid = function(s) {
@@ -68,5 +68,66 @@ var isValid = function(s) {
     return stack.length === 0;
 };
 
-let s = "()";
-isValid(s);
+// let s = "()";
+// isValid(s);
+// https://leetcode.com/problems/valid-parentheses/description/
+
+
+
+var lengthOfLongestSubstring = function(s) {
+    if (s.length === 1) return 1;
+    let seen = new Set();
+    let left = 0;
+    let right = 0;
+    let max = 0;
+    while (right < s.length) {
+        if (!seen.has(s[right])) {
+            seen.add(s[right]);
+            right++;
+            max = Math.max(max, right - left);
+        } else {
+            seen.delete(s[left]);
+            left++;
+        }
+    }
+    return max;
+};
+
+// let s = "pwwkew";
+// console.log(lengthOfLongestSubstring(s));
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+
+
+
+
+var longestPalindrome = function(s) {
+    let start = 0, end = 0;
+    for (let i = 0; i < s.length; i++) {
+        let lenOdd = expandOut(s, i, i);
+        let lenEven = expandOut(s, i, i + 1);
+        let lenMax = Math.max(lenOdd, lenEven);
+
+        if (lenMax > end - start) {
+            start = i - Math.floor((lenMax - 1) / 2);
+            end = i + Math.floor(lenMax / 2);
+        }
+    }
+    return s.substring(start, end + 1);
+}
+
+function expandOut(s, left, right) {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+        left--;
+        right++;
+    }
+    return right - left - 1;
+}
+
+// let s = "babad";
+// console.log(longestPalindrome(s));
+// https://leetcode.com/problems/longest-palindromic-substring/description/
+
+
+
+
+

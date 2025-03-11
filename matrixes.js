@@ -50,7 +50,7 @@ var isValidSudoku = function(board) {
 //     [".",".",".",".","8",".",".","7","9"]
 // ];
 // console.log(isValidSudoku(board));
-
+// https://leetcode.com/problems/valid-sudoku/description/
 
 
 
@@ -79,7 +79,7 @@ var rotateMatrix = function(matrix) {
 }
 // matrix = [[1,2,3],[4,5,6],[7,8,9]];
 // console.log(rotateMatrix(matrix));
-
+// https://leetcode.com/problems/rotate-image/description/
 
 
 
@@ -135,7 +135,7 @@ var spiralOrder = function(matrix) {
 };
 // let matrix = [[1,2,3],[4,5,6],[7,8,9]];
 // console.log(spiralOrder(matrix));
-
+// https://leetcode.com/problems/spiral-matrix/description/
 
 
 
@@ -173,7 +173,7 @@ var setZeroes = function(matrix) {
 };
 // let matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]];
 // console.log(setZeroes(matrix));
-
+// https://leetcode.com/problems/set-matrix-zeroes/description/
 
 
 
@@ -207,7 +207,7 @@ var searchMatrix = function(matrix, target) {
 // let target = 3;
 
 // console.log(searchMatrix(matrix, target));
-
+// https://leetcode.com/problems/search-a-2d-matrix/description/
 
 
 

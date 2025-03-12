@@ -109,3 +109,46 @@ var search = function(nums, target) {
 // const nums = [4,5,6,7,0,1,2], target = 0;
 // console.log(search(nums, target));
 // https://leetcode.com/problems/search-in-rotated-sorted-array/submissions/1339701128/
+
+
+
+var searchRange = function(nums, target) {
+    if (nums.length === 0) return [-1, -1];
+
+    let left = 0;
+    let right = nums.length - 1;
+    let result = [];
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        let value = nums[mid];
+        if (value === target) {
+            if (nums.length === 1) {
+                result.push(mid, mid);
+                return result;
+            }
+
+            let start = mid;
+            if (start === 0) result.push(start);
+            if (start > 0 && nums[start - 1] < target) {
+                result.push(start);
+            } else if (start > 0 && nums[start - 1] === target) {
+                while (nums[start] === target) start--;
+                start = start + 1;
+                result.push(start);
+            }
+            while (nums[start] === target) start++;
+            result.push(start - 1);
+            return result;
+        } else if (target > value) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    result.push(-1, -1);
+    return result;
+};
+
+// const nums = [2,2], target = 2;
+// console.log(searchRange(nums, target));
+// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/

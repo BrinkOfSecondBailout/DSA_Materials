@@ -39,7 +39,7 @@ function linkedListToArray(root) {
 function display(root) {
     if (root === null) console.log("null");
     while (root !== null) {
-        console.log(root.data + " ");
+        console.log(root.data);
         root = root.next;
     }
 }

@@ -94,3 +94,111 @@ var removeNthFromEnd = function(head, n) {
 // const head = arrayToLinkedList([1,2,3,4,5]), n = 2;
 // display(removeNthFromEnd(head, n));
 // https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/
+
+
+
+
+var rotateRight = function(head, k) {
+    if (head === null) return null;
+    let prev = null, curr = null, oldHead = null, newHead = null, count = 0;
+    oldHead = head;
+    curr = head;
+
+    while(curr) {
+        count++;
+        curr = curr.next;
+    }
+    if (k > count) k = k % count;
+    if (k === count || k === 0 || count === 1) return oldHead;
+
+    location = count - k;
+    curr = head;
+    for (let i = 0; i < location; i++) {
+        prev = curr;
+        curr = curr.next;
+    }
+    prev.next = null;
+    newHead = curr;
+    while(curr.next) {
+        curr = curr.next;
+    }
+    curr.next = oldHead;
+
+    return newHead;
+};
+
+// const head = [1,2,3,4,5], k = 10;
+// display(rotateRight(arrayToLinkedList(head), k));
+// https://leetcode.com/problems/rotate-list/submissions/1571950860/
+
+
+
+
+
+var deleteDuplicates = function(head) {
+    if (head == null) return null;
+    if (head.next == null) return head;
+    
+    let prev = null, newHead = null, curr = head;
+    while (curr) {
+        if (curr.next && curr.data !== curr.next.data) { // No removal needed
+            if (newHead == null) newHead = curr;
+            prev = curr;
+            curr = curr.next;
+        } else if (curr.next && curr.data === curr.next.data) { // Removal needed
+            while (curr.next && curr.data === curr.next.data) {
+                curr = curr.next;
+            }
+            if (curr.next) {
+                if (prev != null) {
+                    prev.next = curr.next;
+                }
+                curr = curr.next;
+            }
+        } else {
+            break;
+        }
+    }
+    return newHead;
+};
+
+// const head = [1,2,3,3,4,4,5];
+// display(deleteDuplicates(arrayToLinkedList(head)));
+// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+
+
+
+
+var partition = function(head, x) {
+    if (head == null) return null;
+
+    let leftHead = null, leftTail = null, rightHead = null, rightTail = null, curr = head;
+
+    while (curr) {
+        if (curr.data < x) { // Left partition
+            if (leftHead == null) leftHead = curr;
+            if (leftTail != null) {
+                leftTail.next = curr;
+            }
+            leftTail = curr;
+        } else { // Right partition
+            if (rightHead == null) rightHead = curr;
+            if (rightTail != null) {
+                rightTail.next = curr;
+            }
+            rightTail = curr;
+        }
+        curr = curr.next;
+    }
+    if (leftTail != null) {
+        leftTail.next = rightHead; // Only set if leftTail exists
+    }
+    if (rightTail != null) {
+        rightTail.next = null; // Ensure the end of the list is null
+    }
+    return leftHead != null ? leftHead : rightHead;
+};
+
+// const head = [1,4,3,2,5,2], x = 3;
+// display(partition(arrayToLinkedList(head), x));
+// https://leetcode.com/problems/partition-list/

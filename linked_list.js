@@ -39,7 +39,7 @@ function linkedListToArray(root) {
 function display(root) {
     if (root === null) console.log("null");
     while (root !== null) {
-        console.log(root.data + " ");
+        console.log(root.data);
         root = root.next;
     }
 }
@@ -202,3 +202,54 @@ var partition = function(head, x) {
 // const head = [1,4,3,2,5,2], x = 3;
 // display(partition(arrayToLinkedList(head), x));
 // https://leetcode.com/problems/partition-list/
+
+
+
+var reverseBetween = function(head, left, right) {
+    if (!head || left === right) return head;
+
+    let prev = null, curr = head, position = 1;
+
+    while (position < left) {
+        prev = curr;
+        curr = curr.next;
+        position++;
+    }
+
+    let sectionPrev = prev;
+    let sectionTail = curr;
+
+    while (position <= right) {
+        let next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+        position++;
+    }
+
+    sectionPrev.next = prev;
+    sectionTail.next = curr;
+    return head;
+};
+
+
+// const head = [1,2,3,4,5], left = 2, right = 4;
+// display(reverseBetween(arrayToLinkedList(head), left, right));
+// https://leetcode.com/problems/reverse-linked-list-ii/description/
+
+
+
+var reverseList = function(head) {
+    let prev = null, temp = null, curr = head;
+    while (curr) {
+        temp = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = temp;
+    }
+    return prev;
+};
+
+// head = [1,2];
+// display(reverseList(arrayToLinkedList(head)));
+// https://leetcode.com/problems/reverse-linked-list/

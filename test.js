@@ -1,46 +1,80 @@
-class Node {
-    constructor(data) {
-        this.data = data;
-        this.next = null;
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
     }
 }
 
-function insertAtEnd(root, item) {
-    const temp = new Node(item);
-    if (root == null) {
-        return temp;
+class BST {
+    constructor() {
+        this.root = null;
     }
-    let curr = root;
-    while (curr.next !== null) {
-        curr = curr.next;
+
+    insert(val) {
+        const newNode = new TreeNode(val);
+        if (this.root === null) {
+            this.root = newNode;
+        } else {
+            this.insertNode(this.root, newNode);
+        }
     }
-    curr.next = temp;
-    return root;
+
+    insertNode(node, newNode) {
+        if (newNode.val < node.val) {
+            if (node.left === null) {
+                node.left = newNode;
+            } else {
+                this.insertNode(node.left, newNode);
+            }
+        } else {
+            if (node.right === null) {
+                node.right = newNode;
+            } else {
+                this.insertNode(node.right, newNode);
+            }
+        }
+    }
+
+    display() {
+        console.log("Inorder Traversal (Left, Root, Right):");
+        this.inorder(this.root);
+        console.log("\nPreorder Traversal (Root, Left, Right):");
+        this.preorder(this.root);
+        console.log("\nPostorder Traversal (Left, Right, Root):");
+        this.postorder(this.root);
+    }
+
+    inorder(node) {
+        if (node) {
+            this.inorder(node.left);
+            console.log(node.val);
+            this.inorder(node.right);
+        }
+    }
+
+    preorder(node) {
+        if (node) {
+            console.log(node.val);
+            this.preorder(node.left);
+            this.preorder(node.right);
+        }
+    }
+
+    postorder(node) {
+        if (node) {
+            this.postorder(node.left);
+            this.postorder(node.right);
+            console.log(node.val);
+        }
+    }
 }
 
-function arrayToLinkedList(arr) {
-    let root = null;
-    for (let i = 0; i < arr.length; i++) {
-        root = insertAtEnd(root, arr[i]);
+function arrayToBinaryTree(arr) {
+    const tree = new BST();
+    for (const val of arr) {
+        if (val !== null) tree.insert(val);
     }
-    return root;
-}
-
-function linkedListToArray(root) {
-    let arr = [];
-    let curr = root;
-    while(curr) {
-        arr.push(curr.data);
-        curr = curr.next;
-    }
-    return arr;
-}
-
-function display(root) {
-    if (root === null) console.log("null");
-    while (root !== null) {
-        console.log(root.data);
-        root = root.next;
-    }
+    return tree.root;
 }
 

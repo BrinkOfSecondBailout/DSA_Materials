@@ -253,3 +253,25 @@ var reverseList = function(head) {
 // head = [1,2];
 // display(reverseList(arrayToLinkedList(head)));
 // https://leetcode.com/problems/reverse-linked-list/
+
+
+
+
+
+var hasCycle = function(head) {
+    let slow = head, fast = head;
+
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if (slow === fast) {
+            return true;
+        }
+    }
+    return false;
+};
+
+// const head = [3,2,0,-4], pos = 1;
+// console.log(hasCycle(arrayToLinkedList(head)));
+// https://leetcode.com/problems/linked-list-cycle/description/

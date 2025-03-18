@@ -195,3 +195,144 @@ BSTIterator.prototype.hasNext = function() {
 // console.log(iter.hasNext());
 
 // https://leetcode.com/problems/binary-search-tree-iterator/
+
+
+
+
+
+function generateBST(start, end) {
+    const result = [];
+    if (start > end) {
+        result.push(null);
+        return result;
+    }
+
+    for (let i = start; i <= end; i++) {
+        let leftTrees = generateBST(start, i - 1);
+        let rightTrees = generateBST(i + 1, end);
+        for (let leftTree of leftTrees) {
+            for (let rightTree of rightTrees) {
+                const root = new TreeNode(i);
+                root.left = leftTree;
+                root.right = rightTree;
+                result.push(root);
+            }
+        }
+    }
+    return result;
+}
+
+var generateTrees = function(n) {
+    if (n === 0) return [];
+    return generateBST(1, n);
+};
+
+// const n = 3;
+// console.log(generateTrees(n));
+// https://leetcode.com/problems/unique-binary-search-trees-ii/
+
+
+
+
+
+
+var numTrees = function(n) {
+    // dp[i] represents the number of unique BSTs with i nodes
+    const dp = new Array(n + 1).fill(0);
+
+    dp[0] = 1;
+    dp[1] = 1;
+
+    // Build dp array for each number of nodes from 2 to n
+    for (let nodes = 2; nodes <= n; nodes++) {
+        // For each i as the root, calculate left and right subtrees
+        for (let i = 0; i < nodes; i++) {
+            let left = i; // Nodes in left subtree
+            let right = nodes - 1 - i; // Nodes in right subtree
+            dp[nodes] += dp[left] * dp[right]; // Multiply possibilities
+        }
+    }
+
+    return dp[n];
+};
+
+// console.log(numTrees(3));
+// https://leetcode.com/problems/unique-binary-search-trees/
+
+
+
+
+
+var recoverTree = function(root) {
+    let first = null, second = null, prev = null;
+
+    function inorder(node) {
+        if (!node) return;
+        inorder(node.left);
+        if (prev && node.val < prev.val) {
+            if (!first) {
+                first = prev;
+            }
+            second = node;
+        }
+        prev = node;
+        inorder(node.right);
+    }
+
+    inorder(root);
+
+    if (first && second) {
+        let temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    } else {
+        console.log("Already in order, no fix needed.");
+    }
+};
+// const rootArr = [1,3,null,null,2];
+// let treeRoot = arrayToBinaryTree(rootArr);
+// recoverTree(treeRoot);
+// printInorder(treeRoot);
+// https://leetcode.com/problems/recover-binary-search-tree/description/
+
+
+
+
+
+
+
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+function linkedListToArray(root) {
+    let arr = [];
+    let curr = root;
+    while(curr) {
+        arr.push(curr.data);
+        curr = curr.next;
+    }
+    return arr;
+}
+
+function buildBalancedBST(arr, start, end) {
+    if (start > end) return null;
+
+    let mid = Math.floor((start + end) / 2);
+    let root = new TreeNode(arr[mid]);
+
+    root.left = buildBalancedBST(arr, start, mid - 1);
+    root.right = buildBalancedBST(arr, mid + 1, end);
+    return root;
+}
+
+var sortedListToBST = function(head) {
+    let arr = linkedListToArray(head);
+    if (arr.length === 0) return null;
+    return buildBalancedBST(arr, 0, arr.length - 1);
+};
+
+// https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/

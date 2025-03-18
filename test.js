@@ -70,11 +70,40 @@ class BST {
     }
 }
 
-function arrayToBinaryTree(arr) {
-    const tree = new BST();
-    for (const val of arr) {
-        if (val !== null) tree.insert(val);
+function printInorder(node) {
+    if (node) {
+        printInorder(node.left);
+        console.log(node.val);
+        printInorder(node.right);
     }
-    return tree.root;
 }
 
+function arrayToBinaryTree(arr) {
+    if (!arr || arr.length === 0 || arr[0] === null) return null;
+
+    const root = new TreeNode(arr[0]);
+    const queue = [root];
+    let i = 1;
+    while (queue.length > 0 && i < arr.length) {
+        const curr = queue.shift();
+        if (i < arr.length && arr[i] !== null) {
+            curr.left = new TreeNode(arr[i]);
+            queue.push(curr.left);
+        }
+        i++;
+        if (i < arr.length && arr[i] !== null) {
+            curr.right = new TreeNode(arr[i]);
+            queue.push(curr.right);
+        }
+        i++;
+    }
+    return root;
+}
+
+
+
+var lowestCommonAncestor = function(root, p, q) {
+    
+};
+
+// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/

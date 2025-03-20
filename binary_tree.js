@@ -336,3 +336,26 @@ var sortedListToBST = function(head) {
 };
 
 // https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+
+
+
+function findAncestor(root, p, q) {
+    if (root.val === null) return null;
+
+    if (p.val > root.val && q.val > root.val) {
+        return findAncestor(root.right, p, q);
+    }
+    if (p.val < root.val && q.val < root.val) {
+        return findAncestor(root.left, p, q);
+    } 
+    return root;
+}
+
+var lowestCommonAncestor = function(root, p, q) {
+    return findAncestor(root, p, q);
+};
+
+// const root = arrayToBinaryTree([6,2,8,0,4,7,9,null,null,3,5]);
+// const p = 2, q = 8; 
+// console.log(lowestCommonAncestor(root, p, q));
+// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/

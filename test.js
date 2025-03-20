@@ -101,9 +101,3 @@ function arrayToBinaryTree(arr) {
 }
 
 
-
-var lowestCommonAncestor = function(root, p, q) {
-    
-};
-
-// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/

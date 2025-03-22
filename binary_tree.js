@@ -359,3 +359,71 @@ var lowestCommonAncestor = function(root, p, q) {
 // const p = 2, q = 8; 
 // console.log(lowestCommonAncestor(root, p, q));
 // https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+
+
+
+
+function findMin(node) {
+    while (node && node.left) {
+        node = node.left;
+    }
+    return node;
+}
+
+var deleteNode = function(root, key) {
+    if (!root) return null;
+
+    if (key < root.val) {
+        root.left = deleteNode(root.left, key);
+    } else if (key > root.val) {
+        root.right = deleteNode(root.right, key);
+    } else {
+        if (!root.left) return root.right;
+        if (!root.right) return root.left;
+        let successor = findMin(root.right);
+        root.val = successor.val;
+        root.right = deleteNode(root.right, successor.val);
+    }
+    return root;
+};
+
+
+// const root = arrayToBinaryTree([5,3,6,2,4,null,7]), key = 3;
+// deleteNode(root, key);
+// https://leetcode.com/problems/delete-node-in-a-bst/
+
+
+
+
+function TreeNode(val, left, right) {
+    this.val = (val===undefined ? 0 : val)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
+}
+
+var insertIntoBST = function(root, val) {
+    let newNode = new TreeNode(val);
+    if (!root) return newNode;
+
+    let curr = root;
+    while (true) {
+        if (val < curr.val) {
+            if (!curr.left) {
+                curr.left = newNode;
+                break;
+            }
+            curr = curr.left;
+        } else if (val > curr.val) {
+            if (!curr.right) {
+                curr.right = newNode;
+                break;
+            }
+            curr = curr.right;
+        }
+    }
+    return root;
+};
+
+// const root = arrayToBinaryTree([4,2,7,1,3]), val = 5;
+// console.log(printPreorder(insertIntoBST(root, val)));
+// https://leetcode.com/problems/insert-into-a-binary-search-tree/

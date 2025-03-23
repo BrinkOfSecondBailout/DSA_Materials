@@ -427,3 +427,74 @@ var insertIntoBST = function(root, val) {
 // const root = arrayToBinaryTree([4,2,7,1,3]), val = 5;
 // console.log(printPreorder(insertIntoBST(root, val)));
 // https://leetcode.com/problems/insert-into-a-binary-search-tree/
+
+
+
+
+
+function TreeNode(val, left, right) {
+    this.val = (val===undefined ? 0 : val)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
+}
+
+var bstFromPreorder = function(preorder) {
+    if (preorder.length === 0) return null;
+    let root = new TreeNode(preorder[0]);
+    
+    for (let i = 1; i < preorder.length; i++) {
+        let curr = root;
+        let val = preorder[i];
+        let node = new TreeNode(val);
+        while (curr) {
+            if (curr.val > val) {
+                if (!curr.left) {
+                    curr.left = node;
+                    break;
+                }
+                curr = curr.left;
+            } else if (curr.val < val) {
+                if (!curr.right) {
+                    curr.right = node;
+                    break;
+                }
+                curr = curr.right;
+            }
+        }
+    }
+    return root;
+};
+
+// const preorder = [8,5,1,7,10,12];
+// console.log(bstFromPreorder(preorder));
+// https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/
+
+
+
+
+
+function buildArray(root, arr) {
+    if (!root) return;
+    if (root.left) buildArray(root.left, arr);
+    arr.push(root.val);
+    if (root.right) buildArray(root.right, arr);
+}
+
+function buildBalancedTree(arr, start, end) {
+    if (start > end) return null;
+    let mid = Math.floor((start + end) / 2);
+    let root = new TreeNode(arr[mid]);
+    root.left = buildBalancedTree(arr, start, mid - 1);
+    root.right = buildBalancedTree(arr, mid + 1, end);
+    return root;
+}
+
+var balanceBST = function(root) {
+    let arr = [];
+    buildArray(root, arr);
+    return buildBalancedTree(arr, 0, arr.length - 1);
+};
+
+// const root = arrayToBinaryTree([1,null,2,null,3,null,4,null,null]);
+// console.log(balanceBST(root));
+// https://leetcode.com/problems/balance-a-binary-search-tree/

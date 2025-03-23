@@ -1,10 +1,10 @@
-// class TreeNode {
-//     constructor(val) {
-//         this.val = val;
-//         this.left = null;
-//         this.right = null;
-//     }
-// }
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
 
 // class BST {
 //     constructor() {
@@ -108,9 +108,3 @@ function arrayToBinaryTree(arr) {
     return root;
 }
 
-
-
-
-var bstFromPreorder = function(preorder) {
-    
-};

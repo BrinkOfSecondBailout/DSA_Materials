@@ -72,11 +72,41 @@ class BinaryTree {
 }
 
 function arrayToBinaryTree(arr) {
-    const tree = new BinaryTree();
-    for (const val of arr) {
-        tree.insert(val);
+    if (!arr || arr.length === 0 || arr[0] === null) return null;
+
+    const root = new TreeNode(arr[0]);
+    const queue = [root];
+    let i = 1;
+    while (queue.length > 0 && i < arr.length) {
+        const curr = queue.shift();
+        if (i < arr.length && arr[i] !== null) {
+            curr.left = new TreeNode(arr[i]);
+            queue.push(curr.left);
+        }
+        i++;
+        if (i < arr.length && arr[i] !== null) {
+            curr.right = new TreeNode(arr[i]);
+            queue.push(curr.right);
+        }
+        i++;
     }
-    return tree;
+    return root;
+}
+
+function printInorder(node) {
+    if (node) {
+        printInorder(node.left);
+        console.log(node.val);
+        printInorder(node.right);
+    }
+}
+
+function printPreorder(node) {
+    if (node) {
+        console.log(node.val);
+        printPreorder(node.left);
+        printPreorder(node.right);
+    }
 }
 
 
@@ -498,3 +528,45 @@ var balanceBST = function(root) {
 // const root = arrayToBinaryTree([1,null,2,null,3,null,4,null,null]);
 // console.log(balanceBST(root));
 // https://leetcode.com/problems/balance-a-binary-search-tree/
+
+
+
+
+
+function traverseLargestToSmallest(root, total) {
+    let curr = root;
+    if (curr.right) {
+        total = traverseLargestToSmallest(curr.right, total);
+    }
+    total += curr.val;
+    if (curr.left) {
+        total = traverseLargestToSmallest(curr.left, total);
+    }
+    return total;
+}
+
+function traverseSmallestToLargest(root, total, count) {
+    let curr = root;
+    if (curr.left) {
+        count = traverseSmallestToLargest(curr.left, total, count);
+    }
+    let val = total - count;
+    count += curr.val;
+    curr.val = val;
+    if (curr.right) {
+        count = traverseSmallestToLargest(curr.right, total, count);
+    }
+    return count;
+}
+
+var convertBST = function(root) {
+    if (!root) return null;
+    let total = traverseLargestToSmallest(root, 0);
+    traverseSmallestToLargest(root, total, 0);
+    return root;
+};
+
+// const root = arrayToBinaryTree([4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]);
+// convertBST(root);
+// console.log(root);
+// https://leetcode.com/problems/convert-bst-to-greater-tree/description/

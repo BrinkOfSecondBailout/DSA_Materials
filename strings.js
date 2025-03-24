@@ -271,6 +271,6 @@ function match(s, p, i, j) {
 
 // let s = "aa", p = "a";
 // console.log(isMatch(s, p));
-// https://leetcode.com/problems/regular-expression-matching/submissions/1570749601/
+// https://leetcode.com/problems/regular-expression-matching/
 
 

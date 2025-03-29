@@ -1,85 +1,42 @@
-function linkedListToArray(head) {
-    if (!head) return null;
-    let curr = head;
-    let array = [];
-    while (curr) {
-        array.push(curr.val);
-        curr = curr.next;
-    }
-    return array;
-}
+var createSortedArray = function(instructions) {
+    const MOD = 1000000007;
+    let nums = [];
+    let totalCost = 0;
 
-function arrayToLinkedList(array) {
-    if (array.length === 0) return null;
-    let head = new ListNode(array[0]);
-    let curr = head;
-    for (let i = 1; i < array.length; i++) {
-        let node = new ListNode(array[i]);
-        curr.next = node;
-        curr = curr.next;
-    }
-    return head;
-}
-
-function mergeSort(array) {
-    let length = array.length;
-    if (length <= 1) return;
-
-    let middle = Math.floor(length / 2);
-    let leftArray = new Array(middle);
-    let rightArray = new Array(length - middle);
-
-    let i = 0;
-    let j = 0;
-    for (; i < length; i++) {
-        if (i < middle) {
-            leftArray[i] = array[i];
-        } else {
-            rightArray[j] = array[i];
-            j++;
+    function findPosition(arr, val) {
+        let n = arr.length;
+        let left = 0, right = n - 1;
+        while (left < right) {
+            let mid = Math.floor((left + right) / 2);
+            if (val > arr[mid]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
         }
+        return left;
     }
-    mergeSort(leftArray);
-    mergeSort(rightArray);
-    merge(leftArray, rightArray, array);
-}
 
-function merge(leftArray, rightArray, array) {
-    let leftSize = leftArray.length;
-    let rightSize = array.length - leftArray.length;
-    let i = 0, l = 0, r = 0;
-
-    while (l < leftSize && r < rightSize) {
-        if (leftArray[l] < rightArray[r]) {
-            array[i] = leftArray[l];
-            l++;
-            i++;
-        } else {
-            array[i] = rightArray[r];
-            r++;
-            i++;
+    function calculateCost(arr, val) {
+        let less = 0;
+        let greater = 0;
+        for (let num of arr) {
+            if (num < val) less++;
+            if (num > val) greater++;
         }
+        return [less, greater];
     }
 
-    while (l < leftSize) {
-        array[i] = leftArray[l];
-        i++;
-        l++;
+    for (let val of instructions) {
+        const [less, greater] = calculateCost(nums, val);
+        let cost = Math.min(less, greater);
+        totalCost = (totalCost + cost) % MOD;
+        let pos = findPosition(nums, val);
+        nums.splice(pos, 0, val);
     }
-    while (r < rightSize) {
-        array[i] = rightArray[r];
-        i++;
-        r++;
-    }
-
-
-}
-
-var sortList = function(head) {
-    mergeSort(head);
-    return head;
+    return totalCost;
 };
 
-let head = [4,2,1,3];
-console.log(sortList(head));
-// https://leetcode.com/problems/sort-list/
+const instructions = [1,3,3,3,2,4,2,1,2];
+console.log(createSortedArray(instructions));
+// https://leetcode.com/problems/create-sorted-array-through-instructions/description/

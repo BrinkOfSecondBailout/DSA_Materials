@@ -1,3 +1,49 @@
+function swap(array, i, j) {
+    let temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
+
+function heapify(array, n, i) {
+    let largest = i;
+
+    let leftChild = 2 * i + 1;
+    let rightChild = 2 * i + 2;
+
+    if (leftChild < n && array[leftChild] > array[largest]) largest = leftChild;
+    if (rightChild < n && array[rightChild] > array[largest]) largest = rightChild;
+
+    if (largest !== i) {
+        swap(array, i, largest);
+        heapify(array, n, largest);
+    }
+}
+
+function heapSort(array) {
+    let n = array.length;
+
+    for (let i = Math.floor((n / 2) - 1); i >= 0; i--) {
+        heapify(array, n, i);
+    }
+
+    for (let i = n - 1; i > 0; i--) {
+        swap(array, 0, i);
+        heapify(array, i, 0);
+    }
+    return array;
+}
+
+// let array = [12, 7, 0, 4, 2, 15, 48, 100, 24, 42, 59, 11, 8, 13, 55];
+// console.log(heapSort(array));
+
+
+
+
+
+
+
+
+
 var findRelativeRanks = function(score) {
     const indexedScores = score.map((s, i) => [s, i]);
     

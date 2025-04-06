@@ -139,3 +139,72 @@ var findDuplicate = function(nums) {
 const nums = [1,3,4,2,2];
 console.log(findDuplicate(nums));
 // https://leetcode.com/problems/find-the-duplicate-number/
+
+
+
+
+var createSortedArray = function(instructions) {
+    const MOD = 1000000007;
+    let nums = [];
+    let totalCost = 0;
+
+    function findPosition(arr, val) {
+        let n = arr.length;
+        let left = 0, right = n - 1;
+        while (left < right) {
+            let mid = Math.floor((left + right) / 2);
+            if (val > arr[mid]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    function calculateCost(arr, val) {
+        let less = 0;
+        let greater = 0;
+        for (let num of arr) {
+            if (num < val) less++;
+            if (num > val) greater++;
+        }
+        return [less, greater];
+    }
+
+    for (let val of instructions) {
+        const [less, greater] = calculateCost(nums, val);
+        let cost = Math.min(less, greater);
+        totalCost = (totalCost + cost) % MOD;
+        let pos = findPosition(nums, val);
+        nums.splice(pos, 0, val);
+    }
+    return totalCost;
+};
+
+// const instructions = [1,3,3,3,2,4,2,1,2];
+// console.log(createSortedArray(instructions));
+// https://leetcode.com/problems/create-sorted-array-through-instructions/description/
+
+
+
+
+var threeSumClosest = function(nums, target) {
+    nums.sort((a, b) => a - b);
+    let closest = Infinity;
+    for (let i = 0; i < nums.length - 2; i++) {
+        let left = i + 1;
+        let right = nums.length - 1;
+        while (left < right) {
+            let sum = nums[i] + nums[left] + nums[right];
+            if (Math.abs(sum - target) < Math.abs(closest - target)) closest = sum;
+            if (sum > target) right--;
+            else left++;
+        }
+    }
+    return closest;
+};
+
+// let nums =  [4,0,5,-5,3,3,0,-4,-5], target = -2;
+// console.log(threeSumClosest(nums, target));
+// https://leetcode.com/problems/3sum-closest/

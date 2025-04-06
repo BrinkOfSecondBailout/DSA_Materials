@@ -329,3 +329,62 @@ function mergeKLists(lists) {
 let lists = linkedListify([[1,4,5],[1,3,4],[2,6]]);
 display(mergeKLists(lists));
 // https://leetcode.com/problems/merge-k-sorted-lists/
+
+
+
+
+
+
+function merge(array, left, right) {
+    let i = 0, l = 0, r = 0;
+    while(l < left.length && r < right.length) {
+        if (left[l] < right[r]) {
+            array[i] = left[l];
+            l++;
+        } else {
+            array[i] = right[r];
+            r++;
+        }
+        i++;
+    }
+    while (l < left.length) {
+        array[i] = left[l];
+        l++;
+        i++;
+    }
+    while (r < right.length) {
+        array[i] = right[r];
+        r++;
+        i++;
+    }
+}
+
+function mergeSort(array) {
+    if (array.length <= 1) return;
+
+    let leftArray = [];
+    let rightArray = [];
+
+    let mid = Math.floor(array.length / 2);
+    let l = 0, r = mid;
+    while (l < mid) {
+        leftArray.push(array[l]);
+        l++;
+    }
+    while (r < array.length) {
+        rightArray.push(array[r]);
+        r++;
+    }
+
+    mergeSort(leftArray);
+    mergeSort(rightArray);
+    merge(array, leftArray, rightArray);
+}
+
+function sort(array) {
+    mergeSort(array);
+    return array;
+}
+
+let array = [12, 7, 0, 4, 2, 15, 48, 100, 24, 42, 59, 11, 8, 13, 55];
+console.log(sort(array));

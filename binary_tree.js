@@ -570,3 +570,137 @@ var convertBST = function(root) {
 // convertBST(root);
 // console.log(root);
 // https://leetcode.com/problems/convert-bst-to-greater-tree/description/
+
+
+
+
+
+
+
+// class TreeNode {
+//     constructor(val) {
+//         this.val = val;
+//         this.left = null;
+//         this.right = null;
+//     }
+// }
+
+// class BST {
+//     constructor() {
+//         this.root = null;
+//     }
+
+//     insert(val) {
+//         if (this.root === null) {
+//             const newNode = new TreeNode(val);
+//             this.root = newNode;
+//         } else {
+//             this._insertNode(this.root, val);
+//         }
+//     }
+
+//     _insertNode(node, val) {
+//         if (val < node.val) {
+//             if (node.left === null) {
+//                 node.left = new TreeNode(val);
+//             } else {
+//                 this._insertNode(node.left, val);
+//             }
+//         } else if (val > node.val) {
+//             if (node.right === null) {
+//                 node.right = new TreeNode(val);
+//             } else {
+//                 this._insertNode(node.right, val);
+//             }
+//         }
+//     }
+
+//     balance() {
+//         const nodes = [];
+//         this._inOrderCollect(this.root, nodes);
+//         this.root = this._buildBalancedTree(nodes, 0, nodes.length - 1);
+//     }
+
+//     _inOrderCollect(node, array) {
+//         if (node !== null) {
+//             this._inOrderCollect(node.left, array);
+//             array.push(node.val);
+//             this._inOrderCollect(node.right, array);
+//         }
+//     }
+
+//     _buildBalancedTree(array, start, end) {
+//         if (start > end) return null;
+//         let mid = Math.floor((start + end) / 2);
+//         let node = new TreeNode(array[mid]);
+
+//         node.left = this._buildBalancedTree(array, start, mid - 1);
+//         node.right = this._buildBalancedTree(array, mid + 1, end);
+//         return node;
+//     }
+
+//     preOrder() {
+//         this._preOrder(this.root);
+//         console.log();
+//     }
+
+//     _preOrder(node) {
+//         if (node !== null) {
+//             console.log(node.val);
+//             this._preOrder(node.left);
+//             this._preOrder(node.right);
+//         }
+//     }
+
+//     inOrder() {
+//         this._inOrder(this.root);
+//         console.log();
+//     }
+
+//     _inOrder(node) {
+//         if (node !== null) {
+//             this._inOrder(node.left);
+//             console.log(node.val);
+//             this._inOrder(node.right);
+//         }
+//     }
+
+//     postOrder() {
+//         this._postOrder(this.root);
+//         console.log();
+//     }
+
+//     _postOrder(node) {
+//         if (node !== null) {
+//             this._postOrder(node.left);
+//             this._postOrder(node.right);
+//             console.log(node.val);
+//         }
+//     }
+// }
+
+// const bst = new BST();
+
+// Insert nodes
+// bst.insert(50);
+// bst.insert(30);
+// bst.insert(70);
+// bst.insert(20);
+// bst.insert(40);
+// bst.insert(60);
+// bst.insert(80);
+
+// // Display traversals
+// console.log("Pre-order traversal:");
+// bst.preOrder(); // 50 30 20 40 70 60 80
+
+// console.log("In-order traversal:");
+// bst.inOrder();  // 20 30 40 50 60 70 80
+
+// console.log("Post-order traversal:");
+// bst.postOrder(); // 20 40 30 60 80 70 50
+
+// bst.balance();
+// bst.inOrder();
+
+

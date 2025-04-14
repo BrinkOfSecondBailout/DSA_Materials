@@ -274,3 +274,60 @@ function match(s, p, i, j) {
 // https://leetcode.com/problems/regular-expression-matching/
 
 
+
+
+
+// var findSubstring = function(s, words) {
+//     if (!s || !words || !words.length) return [];
+//     const wordLen = words[0].length;
+//     const totalLen = wordLen * words.length;
+//     const result = [];
+//     const wordCount = new Map();
+//     for (let word of words) {
+//         wordCount.set(word, (wordCount.get(word) || 0) + 1);
+//     }
+//     for (let i = 0; i <= s.length - totalLen; i++) {
+//         const seen = new Map();
+//         let j = 0;
+//         while (j < words.length) {
+//             const currWord = s.slice(i + j * wordLen, i + (j + 1) * wordLen);
+//             if (!wordCount.has(currWord)) break;
+//             seen.set(currWord, (seen.get(currWord) || 0) + 1);
+//             if (seen.get(currWord) > wordCount.get(currWord)) break;
+//             j++;
+//         }
+//         if (j === words.length) result.push(i);
+//     }
+//     return result;
+// };
+
+
+// const s = "barfoothefoobarman", words = ["foo","bar"];
+// console.log(findSubstring(s, words));
+// https://leetcode.com/problems/substring-with-concatenation-of-all-words/description/
+
+
+
+
+
+var longestValidParentheses = function(s) {
+    let maxLength = 0;
+    const stack = [-1];
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === '(') {
+            stack.push(i);
+        } else {
+            stack.pop();
+
+            if (stack.length === 0) {
+                stack.push(i);
+            } else {
+                maxLength = Math.max(maxLength, i - stack[stack.length - 1]);
+            }
+        }
+    }
+    return maxLength;
+};
+
+// const s = ")()())";
+// console.log(longestValidParentheses(s));

@@ -152,3 +152,37 @@ var searchRange = function(nums, target) {
 // const nums = [2,2], target = 2;
 // console.log(searchRange(nums, target));
 // https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
+
+
+
+
+var trap = function(height) {
+    let left = 0;
+    let right = height.length - 1;
+    let leftMax = 0;
+    let rightMax = 0;
+    let waterTrapped = 0;
+
+    while (left < right) {
+        if (height[left] < height[right]) {
+            if (height[left] >= leftMax) {
+                leftMax = height[left];
+            } else {
+                waterTrapped += leftMax - height[left];
+            }
+            left++;
+        } else {
+            if (height[right] >= rightMax) {
+                rightMax = height[right];
+            } else {
+                waterTrapped += rightMax - height[right];
+            }
+            right--;
+        }
+    }
+    return waterTrapped;
+};
+
+// const height = [0,1,0,2,1,0,1,3,2,1,2,1];
+// console.log(trap(height));
+// https://leetcode.com/problems/trapping-rain-water/

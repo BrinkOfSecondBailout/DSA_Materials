@@ -331,3 +331,52 @@ var longestValidParentheses = function(s) {
 
 // const s = ")()())";
 // console.log(longestValidParentheses(s));
+
+
+
+
+function minWindow(s, t) {
+    if (s.length === 0 || t.length === 0) return "";
+
+    // Step 1: Create a frequency map for characters in t
+    const tMap = {};
+    for (let char of t) {
+        tMap[char] = (tMap[char] || 0) + 1;
+    }
+
+    let left = 0;
+    let minLen = Infinity;
+    let minStart = 0;
+    let required = Object.keys(tMap).length;
+    let formed = 0;
+    const windowCounts = {};
+
+    for (let right = 0; right < s.length; right++) {
+        const char = s[right];
+        windowCounts[char] = (windowCounts[char] || 0) + 1;
+
+        if (tMap[char] && windowCounts[char] === tMap[char]) {
+            formed++;
+        }
+
+        while (formed === required) {
+            // Update minimum window
+            if (right - left + 1 < minLen) {
+                minLen = right - left + 1;
+                minStart = left;
+            }
+
+            const leftChar = s[left];
+            windowCounts[leftChar]--;
+            if (tMap[leftChar] && windowCounts[leftChar] < tMap[leftChar]) {
+                formed--;
+            }
+            left++;
+        }
+    }
+
+    return minLen === Infinity ? "" : s.slice(minStart, minStart + minLen);
+}
+// const s = "cabwefgewcwaefgcf", t = "cae";
+// console.log(minWindow(s, t));
+// https://leetcode.com/problems/minimum-window-substring/

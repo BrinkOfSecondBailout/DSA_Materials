@@ -1,9 +1,9 @@
-class Node {
-    constructor(data) {
-        this.data = data;
-        this.next = null;
-    }
-}
+// class Node {
+//     constructor(data) {
+//         this.data = data;
+//         this.next = null;
+//     }
+// }
 
 function insertAtEnd(root, item) {
     const temp = new Node(item);
@@ -18,31 +18,31 @@ function insertAtEnd(root, item) {
     return root;
 }
 
-function arrayToLinkedList(arr) {
-    let root = null;
-    for (let i = 0; i < arr.length; i++) {
-        root = insertAtEnd(root, arr[i]);
-    }
-    return root;
-}
+// function arrayToLinkedList(arr) {
+//     let root = null;
+//     for (let i = 0; i < arr.length; i++) {
+//         root = insertAtEnd(root, arr[i]);
+//     }
+//     return root;
+// }
 
-function linkedListToArray(root) {
-    let arr = [];
-    let curr = root;
-    while(curr) {
-        arr.push(curr.data);
-        curr = curr.next;
-    }
-    return arr;
-}
+// function linkedListToArray(root) {
+//     let arr = [];
+//     let curr = root;
+//     while(curr) {
+//         arr.push(curr.data);
+//         curr = curr.next;
+//     }
+//     return arr;
+// }
 
-function display(root) {
-    if (root === null) console.log("null");
-    while (root !== null) {
-        console.log(root.data);
-        root = root.next;
-    }
-}
+// function display(root) {
+//     if (root === null) console.log("null");
+//     while (root !== null) {
+//         console.log(root.data);
+//         root = root.next;
+//     }
+// }
 
 var addTwoNumbers = function(list1, list2) {
     let curr1 = list1;
@@ -281,21 +281,21 @@ var hasCycle = function(head) {
 
 
 
-function ListNode(val, next) {
-    this.val = (val===undefined ? 0 : val)
-    this.next = (next===undefined ? null : next)
-}
+// function ListNode(val, next) {
+//     this.val = (val===undefined ? 0 : val)
+//     this.next = (next===undefined ? null : next)
+// }
 
-function turnArrayToList(array) {
-    let dummy = new ListNode(0);
-    let curr = dummy;
-    for (const num of array) {
-        let newNode = new ListNode(num);
-        curr.next = newNode;
-        curr = curr.next;
-    }
-    return dummy.next;
-}
+// function turnArrayToList(array) {
+//     let dummy = new ListNode(0);
+//     let curr = dummy;
+//     for (const num of array) {
+//         let newNode = new ListNode(num);
+//         curr.next = newNode;
+//         curr = curr.next;
+//     }
+//     return dummy.next;
+// }
 
 function countNodes(node) {
     if (node === null) return 0;
@@ -343,3 +343,109 @@ var reverseKGroup = function(head, k) {
 // const head = turnArrayToList([1,2,3,4,5]), k = 2;
 // reverseKGroup(head, k);
 // https://leetcode.com/problems/reverse-nodes-in-k-group/description/
+
+
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+
+function arrayToList(arr) {
+    let head = new ListNode(arr[0]);
+    let curr = head;
+    for (let i = 1; i < arr.length; i++) {
+        curr.next = new ListNode(arr[i]);
+        curr = curr.next;
+    }
+    return head;
+}
+
+function countNodes(node) {
+    if (node === null) return 0;
+    let count = 0;
+    while (node) {
+        count++;
+        node = node.next;
+    }
+    return count;
+}
+
+var reorderList = function(head) {
+    let curr = head;
+    let slow = curr, fast = curr.next;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    let second = slow.next;
+    prev = null;
+    slow.next = null;
+
+    while (second) {
+        let temp = second.next;
+        second.next = prev;
+        prev = second;
+        second = temp;
+    }
+    first = head;
+    second = prev;
+    while (second) {
+        let temp1 = first.next;
+        let temp2 = second.next;
+        first.next = second;
+        second.next = temp1;
+        first = temp1;
+        second = temp2;
+    }
+};
+
+// const head = arrayToList([1,2,3,4]);
+// reorderList(head);
+// console.log(head);
+// https://leetcode.com/problems/reorder-list/description/?envType=problem-list-v2&envId=oizxjoit
+
+
+// Brute force
+// var maxProduct = function(nums) {
+//     if (nums.length === 0) return 0;
+//     let max = -Infinity;
+
+//     for (let left = 0; left < nums.length; left++) {
+//         let currTotal = nums[left];
+//         max = Math.max(max, currTotal);
+//         for (let right = left + 1; right < nums.length; right++) {
+//             currTotal *= nums[right];
+//             max = Math.max(max, currTotal);
+//         }
+//     }
+//     return max;
+// };
+
+function maxProduct(nums) {
+    let result = Math.max(...nums);
+    let currMin = currMax = 1;
+    for (const num of nums) {
+        let temp = currMax;
+        currMax = Math.max(num * currMax, num * currMin, num);
+        currMin = Math.min(num * temp, num * currMin, num);
+        result = Math.max(result, currMax, currMin);
+    }
+    return result;
+}
+
+// const nums = [2,3,-2,4];
+// console.log(maxProduct(nums));
+// https://leetcode.com/problems/maximum-product-subarray/description/?envType=problem-list-v2&envId=oizxjoit
+
+var getSum = function(a, b) {
+    while (b !== 0) {
+        let temp = (a & b) << 1;
+        a = a ^ b;
+        b = temp;
+    }
+    return a;
+};
+
+// const a = 1, b = 2;
+// console.log(getSum(a, b));
+// https://leetcode.com/problems/sum-of-two-integers/description/?envType=problem-list-v2&envId=oizxjoit

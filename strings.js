@@ -380,3 +380,128 @@ function minWindow(s, t) {
 // const s = "cabwefgewcwaefgcf", t = "cae";
 // console.log(minWindow(s, t));
 // https://leetcode.com/problems/minimum-window-substring/
+
+
+
+
+var countSubstrings = function(s) {
+    let n = s.length;
+    let count = 0;
+
+    for (let i = 0; i < n; i++) {
+        let left = right = i;
+        while (left >= 0 && right < n && s[left] === s[right]) {
+            count++;
+            left--;
+            right++;
+        }
+        left = i, right = i + 1;
+        while (left >= 0 && right < n && s[left] === s[right]) {
+            count++;
+            left--;
+            right++;
+        }
+    }
+    return count;
+};
+
+// const s = "aaa";
+// console.log(countSubstrings(s));
+// https://leetcode.com/problems/palindromic-substrings/?envType=problem-list-v2&envId=oizxjoit
+
+
+
+
+var mergeAlternately = function(word1, word2) {
+    let result = "";
+    if (word1.length === 0 && word2.length === 0) return result;
+    let i = 0, left = 0, right = 0;
+    while (left < word1.length && right < word2.length) {
+        result += word1[left];
+        left++;
+        i++;
+        result += word2[right];
+        right++;
+        i++;
+    }
+    while (left < word1.length) {
+        result += word1[left];
+        left++;
+    }
+    while (right < word2.length) {
+        result += word2[right];
+        right++;
+    }
+    return result;
+};
+
+
+// const word1 = "abc", word2 = "pqr";
+// console.log(mergeAlternately(word1, word2));
+// https://leetcode.com/problems/merge-strings-alternately/description/
+
+
+
+
+
+// Euclidian Algo
+var gcdOfStrings = function(str1, str2) {
+    if (str1 + str2 !== str2 + str1) return "";
+
+    function gcd(len1, len2) {
+        while (len2 !== 0) {
+            [len1, len2] = [len2, len1 % len2];
+        }
+        return len1;
+    }
+
+    return str1.slice(0, gcd(str1.length, str2.length));
+
+};
+
+
+//Alternative
+// function gcdOfStrings2(str1, str2) {
+//     if (str1 + str2 !== str2 + str1) return "";
+
+//     function gcd(len1, len2) {
+//         let minVal = Math.min(len1, len2);
+//         for (let i = minVal; i > 0; i--) {
+//             if (len1 % i === 0 && len2 % i === 0) return i;
+//         }
+//         return 1;
+//     }
+
+//     return str1.substring(0, gcd(str1.length, str2.length));
+// }
+
+
+
+// const str1 = "ABCABC", str2 = "ABC";
+// console.log(gcdOfStrings(str1, str2));
+
+// https://leetcode.com/problems/greatest-common-divisor-of-strings/description/
+
+
+
+
+
+var wordBreak = function(s, wordDict) {
+    let wordSet = new Set(wordDict);
+    let dp = Array(s.length + 1).fill(false);
+    dp[s.length] = true;
+    for (i = s.length - 1; i >= 0; i--) {
+        for (let j = i + 1; j <= s.length; j++) {
+            if (wordSet.has(s.substring(i, j)) && dp[j]) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+    console.log(dp);
+    return dp[0];
+};
+
+// const s = "leetcode", wordDict = ["leet","code"];
+// console.log(wordBreak(s, wordDict));
+// https://leetcode.com/problems/word-break/description/

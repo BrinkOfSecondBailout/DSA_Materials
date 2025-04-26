@@ -376,3 +376,204 @@ function minPathSum(grid) {
 
 
 
+function match(s, p, i, j, memo) {
+    if (i >= s.length && j >= p.length) return true;
+    if (j >= p.length) return false;
+    
+    let key = `${i},${j}`;
+    if (key in memo) return memo[key];
+
+    if (i >= s.length) {
+        if (j + 1 < p.length && p[j + 1] === '*') {
+            memo[key] = match(s, p, i, j + 2, memo);
+        } else {
+            memo[key] = false;
+        }
+        return memo[key];
+    }
+
+    const currMatch = s[i] === p[j] || p[j] === '.';
+    if (j + 1 < p.length && p[j + 1] === '*') {
+        const skipStar = match(s, p, i, j + 2, memo);
+        const useStar = currMatch && match(s, p, i + 1, j, memo);
+        memo[key] = skipStar || useStar;
+        return memo[key];
+    }
+
+    if (currMatch) {
+        memo[key] = match(s, p, i + 1, j + 1, memo);
+        return memo[key];
+    }
+
+    memo[key] = false;
+    return false;
+}
+
+var isMatch = function(s, p) {
+    let memo = {};
+    return match(s, p, 0, 0, memo);
+};
+
+// const s = "aaaaaaaaaaaaaaaaaaa", p = "a*a*a*a*a*a*a*a*a*b"
+// console.log(isMatch(s, p));
+
+
+// https://leetcode.com/problems/regular-expression-matching/?envType=problem-list-v2&envId=dynamic-programming
+
+
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function arrayToBinaryTree(arr) {
+    if (arr.length === 0) return null;
+
+    const root = new TreeNode(arr[0]);
+    const queue = [root];
+    let i = 1;
+
+    while (queue.length > 0 && i < arr.length) {
+        const current = queue.shift();
+
+        if (i < arr.length && arr[i] != null) {
+            current.left = new TreeNode(arr[i]);
+            queue.push(current.left);
+        }
+        i++;
+
+        if (i < arr.length && arr[i] != null) {
+            current.right = new TreeNode(arr[i]);
+            queue.push(current.right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+var maxPathSum = function(root) {
+    if (!root) return 0;
+    let result = [root.val];
+
+    function dfs(root) {
+        if (!root) return 0;
+        const leftMax = Math.max(dfs(root.left), 0);
+        const rightMax = Math.max(dfs(root.right), 0);
+        // Compute max path sum with split
+        result[0] = Math.max(result[0], root.val + leftMax + rightMax);
+        // Return max path without split
+        return root.val + Math.max(leftMax, rightMax);
+    }
+
+    dfs(root);
+    return result[0];
+};
+
+// const root = [-10,9,20,null,null,15,7];
+// console.log(maxPathSum(arrayToBinaryTree(root)));
+// https://leetcode.com/problems/binary-tree-maximum-path-sum/?envType=problem-list-v2&envId=dynamic-programming
+
+
+
+
+// Recursive
+// var maximalSquare = function(matrix) {
+//     let rows = matrix.length;
+//     let cols = matrix[0].length;
+//     let memo = {};
+
+//     function dfs(row, col) {
+//         if (row >= rows || col >= cols) return 0;
+
+//         let key = `${row}, ${col}`;
+//         if (key in memo) {
+//             return memo[key];
+//         }
+
+//         const down = dfs(row + 1, col);
+//         const right = dfs(row, col + 1);
+//         const diag = dfs(row + 1, col + 1);
+
+//         memo[key] = 0;
+//         if (matrix[row][col] == "1") {
+//             memo[key] = 1 + Math.min(down, right, diag);
+//         }
+//         return memo[key];
+//     }
+//     dfs(0, 0);
+//     return Math.max(...Object.values(memo)) ** 2;
+// };
+
+
+// Iterative
+var maximalSquare = function(matrix) {
+    let rows = matrix.length, cols = matrix[0].length;
+    let max = 0;
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (matrix[r][c] === "0") continue;
+            if (r > 0 && c > 0) {
+                matrix[r][c] = 1 + Math.min(matrix[r - 1][c], matrix[r][c - 1], matrix[r - 1][c - 1]);
+            }
+            max = Math.max(max, matrix[r][c]);
+        }
+    }
+    console.log(matrix);
+    return max ** 2;
+};
+
+// const matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]];
+// console.log(maximalSquare(matrix));
+// https://leetcode.com/problems/maximal-square/description/?envType=problem-list-v2&envId=dynamic-programming
+
+
+
+
+
+
+
+// O(n) space complexity
+// var firstMissingPositive = function(nums) {
+//     const set = new Set(nums);
+//     for (let i = 1; i <= nums.length + 1; i++) {
+//         if (!set.has(i)) return i;
+//     }
+//     return nums.length + 1;
+// };
+
+
+// Space O(1) , so clever
+var firstMissingPositive = function(nums) {
+    let n = nums.length;
+    for (let i = 0; i < n; i++) {
+        if (nums[i] <= 0 || nums[i] > n) {
+            nums[i] = n + 1;
+        }
+    }
+
+    for (let i = 0; i < n; i++) {
+        const num = Math.abs(nums[i]);
+        if (num <= n) {
+            nums[num - 1] = -Math.abs(nums[num - 1]);
+        }
+    }
+
+    for (let i = 0; i < n; i++) {
+        if (nums[i] > 0) {
+            return i + 1;
+        }
+    }
+    return n + 1;
+}
+
+// const nums = [3,4,-1,1];
+// console.log(firstMissingPositive(nums));
+// https://leetcode.com/problems/first-missing-positive/
+
+
+
+

@@ -449,3 +449,116 @@ var getSum = function(a, b) {
 // const a = 1, b = 2;
 // console.log(getSum(a, b));
 // https://leetcode.com/problems/sum-of-two-integers/description/?envType=problem-list-v2&envId=oizxjoit
+
+
+
+var middleNode = function(head) {
+    if (head === null) return null;
+    let slow = fast = head;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    return slow;
+};
+
+// const head = arrayToList([1,2,3,4,5,6]);
+// console.log(middleNode(head));
+// https://leetcode.com/problems/middle-of-the-linked-list/
+
+
+
+
+var deleteMiddle = function(head) {
+    if (head === null || head.next === null) return null;
+    let prev = slow = fast = head;
+    while (fast && fast.next) {
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    prev.next = slow.next;
+    return head;
+};
+
+// const head = arrayToList([1]);
+// console.log(deleteMiddle(head));
+// https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+
+
+
+
+
+var moveZeroes = function(nums) {
+    let left = 0;
+
+    for (let right = 0; right < nums.length; right++) {
+        if (nums[right] !== 0) {
+            [nums[right], nums[left]] = [nums[left], nums[right]];
+            left++;
+        }
+    }
+};
+
+
+// const nums = [0,1,0,3,12];
+// moveZeroes(nums);
+// console.log(nums);
+// https://leetcode.com/problems/move-zeroes/
+
+
+
+
+var subsets = function(nums) {
+    let result = [], sub = [];
+    let n = nums.length;
+
+    function backtrack(i) {
+        if (i === n) {
+            result.push([...sub]);
+            return;
+        }
+        backtrack(i + 1);
+        sub.push(nums[i]);
+        backtrack(i + 1);
+        sub.pop();
+    }
+
+    backtrack(0);
+    return result;
+};
+
+// const nums = [1,2,3];
+// console.log(subsets(nums));
+// https://leetcode.com/problems/subsets/
+
+
+
+
+
+
+var combinationSum = function(candidates, target) {
+    let result = [], sub = [];
+    let n = candidates.length;
+    function dfs(i, currSum) {
+        if (currSum === target) {
+            result.push([...sub]);
+            return;
+        }
+        if (currSum > target || i === n) {
+            return;
+        }
+
+        dfs(i + 1, currSum );
+
+        sub.push(candidates[i]);
+        dfs(i, currSum + candidates[i]);
+        sub.pop();
+    }
+    dfs(0, 0);
+    return result;
+};
+
+// const candidates = [2,3,6,7], target = 7;
+// console.log(combinationSum(candidates, target));
+// https://leetcode.com/problems/combination-sum/

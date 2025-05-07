@@ -186,3 +186,115 @@ var trap = function(height) {
 // const height = [0,1,0,2,1,0,1,3,2,1,2,1];
 // console.log(trap(height));
 // https://leetcode.com/problems/trapping-rain-water/
+
+
+
+
+
+
+var search = function(nums, target) {
+    if (nums.length === 0) return -1;
+    let left = 0;
+    let right = nums.length - 1;
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        if (nums[mid] === target) return mid;
+
+        if (nums[left] <= nums[mid]) {
+            // Left part is sorted
+            if (nums[left] <= target && target < nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        } else {
+            // Right part is sorted
+            if (nums[right] >= target && target > nums[mid]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+    return -1;
+};
+
+// const nums = [3,5,1], target = 3;
+// console.log(search(nums, target));
+// https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+
+
+
+
+
+var sortColors = function(nums) {
+    let n = nums.length;
+    if (n === 0) return null;
+    let red = white = 0;
+    let blue = n - 1;
+    while (white <= blue) {
+        if (nums[white] === 0) {
+            [nums[white], nums[red]] = [nums[red], nums[white]];
+            red++;
+            white++;
+        } else if (nums[white] === 1) {
+            white++;
+        } else {
+            [nums[white], nums[blue]] = [nums[blue], nums[white]];
+            blue--;
+        }
+    }
+};
+
+// const nums = [2,0,2,1,1,0];
+// console.log(sortColors(nums));
+// https://leetcode.com/problems/sort-colors/description/
+
+
+
+
+function reverse(arr, start, end) {
+    while (start < end) {
+        [arr[start], arr[end]] = [arr[end], arr[start]];
+        start++;
+        end--;
+    }
+}
+
+var rotate = function(nums, k) {
+    if (nums.length === 0) return null;
+    if (k === 0) return nums;
+    k = k % nums.length;
+
+    reverse(nums, 0, nums.length - 1);
+    reverse(nums, 0, k - 1);
+    reverse(nums, k, nums.length - 1);
+};
+
+// const nums = [-1,-100,3,99], k = 2;
+// rotate(nums, k);
+// console.log(nums);
+// https://leetcode.com/problems/rotate-array/description/
+
+
+
+
+var maxArea = function(height) {
+    if (height.length === 0 || height.length === 1) return null;
+    let max = 0, currArea = 0;
+    let left = 0, right = height.length - 1;
+    while (left < right) {
+        currArea = Math.min(height[left], height[right]) * (right - left);
+        max = Math.max(max, currArea);
+        height[left] < height[right] ? left++ : right--;
+    }
+    return max;
+};
+
+// const height = [1,8,6,2,5,4,8,3,7];
+// console.log(maxArea(height));
+// https://leetcode.com/problems/container-with-most-water/description/
+
+
+
+

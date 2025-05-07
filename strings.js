@@ -502,6 +502,59 @@ var wordBreak = function(s, wordDict) {
     return dp[0];
 };
 
+
 // const s = "leetcode", wordDict = ["leet","code"];
 // console.log(wordBreak(s, wordDict));
 // https://leetcode.com/problems/word-break/description/
+
+
+
+function primeString(string, dummy = "#") {
+    return `${dummy}${string.split('').join(dummy)}${dummy}`;
+}
+
+var longestPalindrome = function(s) {
+    const sPrime = primeString(s);
+    console.log(sPrime);
+    const n = sPrime.length;
+    const P = Array(n).fill(0);
+    let C = 0;
+    let R = 0;
+    for (let i = 0; i < n; i++) {
+        // if i is within right boundary
+        if (i < R) {
+            const iMirror = 2 * C - i;
+            P[i] = Math.min(R - i, P[iMirror]);
+        }
+        let left = i - (P[i] + 1);
+        let right = i + (P[i] + 1);
+        while (left >= 0 && right < n && sPrime[left] === sPrime[right]) {
+            P[i]++;
+            left--;
+            right++;
+        }
+        if (i + P[i] > R) {
+            C = i;
+            R = i + P[i];
+        }
+    }
+    let maxLen = 0;
+    let center = 0;
+    for (let i = 0; i < n; i++) {
+        if (P[i] > maxLen) {
+            maxLen = P[i];
+            center = i;
+        }
+    }
+    console.log(P);
+    const start = Math.floor((center - maxLen) / 2);
+    const end = start + maxLen;
+    return s.slice(start, end);
+};
+
+// const s = "babad";
+// console.log(longestPalindrome(s));
+// https://leetcode.com/problems/longest-palindromic-substring/
+
+
+

@@ -296,5 +296,52 @@ var maxArea = function(height) {
 // https://leetcode.com/problems/container-with-most-water/description/
 
 
+var isHappy = function(n) {
+    const seen = new Set();
+    while (n !== 1 && !seen.has(n)) {
+        seen.add(n);
+        n = n.toString().split('').reduce((sum, digit) => sum + Number(digit) ** 2, 0);
+    }
+    return n === 1;
+};
+
+// const n = 19;
+// console.log(isHappy(n));
+// https://leetcode.com/problems/happy-number/description/
 
 
+
+var maxSubArray = function(nums) {
+    let maxSum = -Infinity;
+    let currSum = 0;
+    for (let i = 0; i < nums.length; i++) {
+        currSum += nums[i];
+        maxSum = Math.max(maxSum, currSum);
+
+        if (currSum < 0) currSum = 0;
+    }
+    return maxSum;
+}
+
+// const nums = [-2,1,-3,4,-1,2,1,-5,4];
+// console.log(maxSubArray(nums));
+// https://leetcode.com/problems/maximum-product-subarray/
+
+
+
+
+var maxProduct = function(nums) {
+    let currMin = 1;
+    let currMax = 1;
+    let result = Math.max(...nums);
+    for (const num of nums) {
+        let temp = currMin;
+        currMin = Math.min(num * currMin, num * currMax, num);
+        currMax = Math.max(num * temp, num * currMax, num);
+        result = Math.max(currMin, currMax, result);
+    }
+    return result;
+};
+
+// const nums = [2,3,-2,4];
+// console.log(maxProduct(nums));

@@ -388,3 +388,23 @@ function sort(array) {
 
 let array = [12, 7, 0, 4, 2, 15, 48, 100, 24, 42, 59, 11, 8, 13, 55];
 console.log(sort(array));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
